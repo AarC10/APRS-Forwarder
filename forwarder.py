@@ -10,6 +10,8 @@ import socket
 import time
 import sys
 
+from aprslib.exceptions import ParseError
+
 IP = "127.0.0.1"
 PORT = 8081
 
@@ -27,6 +29,12 @@ def output_reader():
             continue
 
     return packet
+
+def packet_formatter(packet):
+    if ",:=" in packet:
+        packet = packet.replace(",:=", ":!")
+
+    return packet
     
 def sender(parsed):
     latitude = parsed["latitude"]
@@ -40,17 +48,20 @@ def sender(parsed):
 
 
 def main():
-    packet = r"KD2WSM-5>APDR16,:=4307.61N07741.17WS433.290MHz" 
-    parsed = aprslib.parse("KD2WSM-5>APDR16:!4307.61N\\07741.17WS433.290MHz")
 
     while True:
         APRS_packet = output_reader()
+        APRS_packet = packet_formatter(APRS_packet)
         print(APRS_packet)
-        parsed_packet = aprslib.parse(APRS_packet)
-        sender(parsed_packet)
-        print("Sent")
-        time.sleep(5)
     
+        try:
+            parsed_packet = aprslib.parse(APRS_packet)
+
+        except ParseError:
+            print("Parse Error")
+            continue
+        sender(parsed_packet)
+        
     
 
 if __name__ == "__main__":
