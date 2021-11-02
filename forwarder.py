@@ -15,7 +15,11 @@ from aprslib.exceptions import ParseError
 IP = "127.0.0.1"
 PORT = 8081
 
+
 def output_reader():
+    """
+    Takes in stdin until it finds an APRS packet to parse
+    """
     while True:
         line = input()
 
@@ -25,44 +29,53 @@ def output_reader():
             break
 
         else:
-            print("Invalid")
             continue
 
     return packet
 
+
 def packet_formatter(packet):
+    """
+    Reformat packet so aprslib works better
+    """
     if ",:=" in packet:
         packet = packet.replace(",:=", ":!")
 
     return packet
-    
+
+
 def sender(parsed):
+    """
+    Send the latitude, longitude and altitude from the parsed packet
+    """
     latitude = parsed["latitude"]
     longitude = parsed["longitude"]
+    # altitude = parsed["altitude"]
 
-    lat_long = struct.pack("ff", latitude, longitude)
-    
-     
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
-    sock.sendto(lat_long, (IP, PORT))
+    location = struct.pack("ff", latitude, longitude)
+
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.sendto(location, (IP, PORT))
 
 
 def main():
+    """
+    Main function
+    """
 
     while True:
-        APRS_packet = output_reader()
-        APRS_packet = packet_formatter(APRS_packet)
-        print(APRS_packet)
-    
+        APRS_packet = output_reader() # Loop until it finds an APRS packet 
+        APRS_packet = packet_formatter(APRS_packet) # Hacky reformatting so packet works with aprslib
+
         try:
             parsed_packet = aprslib.parse(APRS_packet)
 
         except ParseError:
             print("Parse Error")
             continue
+
         sender(parsed_packet)
-        
-    
+
 
 if __name__ == "__main__":
     main()
