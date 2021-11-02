@@ -39,7 +39,7 @@ def packet_formatter(packet):
     Reformat packet so aprslib works better
     """
     if ",:=" in packet:
-        packet = packet.replace(",:=", ":!")
+        packet = packet.replace(",","")
 
     return packet
 
