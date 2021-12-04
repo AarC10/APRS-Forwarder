@@ -12,3 +12,4 @@ while True:
     data, addr = sock.recvfrom(1024)
     latitude, longitude = struct.unpack("ff", data)
     print("Latitude: %s  Longitude: %s" % (latitude, longitude))
+
