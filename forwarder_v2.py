@@ -12,16 +12,16 @@ import sys
 
 from aprslib.exceptions import ParseError
 
+CALLSIGNS = dict()
+STARTING_PORT = 8080
+
 try:
 	args = sys.argv
 
-	IP_AND_PORT = args[1].split(':')
-	IP = IP_AND_PORT[0]
-	PORT = int(IP_AND_PORT[1])
-	CALLSIGN = args[2]
+	IP = args[1]
 
 except IndexError:
-	print("Usage: forwarder.py IP:PORT CALLSIGN")
+	print("Usage: forwarder.py IP")
 	sys.exit(1)
 
 
@@ -53,10 +53,12 @@ def packet_formatter(packet):
 	return packet
 
 
-def sender(parsed):
+def sender(parsed, port):
 	"""
 	Send the latitude, longitude and altitude from the parsed packet
 	"""
+	print(f"Sending to {port}")
+
 	latitude = parsed["latitude"]
 	longitude = parsed["longitude"]
 	# altitude = parsed["altitude"]
@@ -64,15 +66,13 @@ def sender(parsed):
 	location = struct.pack("ff", latitude, longitude)
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	sock.sendto(location, (IP, PORT))
+	sock.sendto(location, (IP, port))
 
 
 def main():
 	"""
 	Main function
 	"""
-	print("Forwarding to {}:{}".format(IP, PORT))
-	print("Callsign: {}".format(CALLSIGN))
 
 	while True:
 		APRS_packet = output_reader()  # Loop until it finds an APRS packet
@@ -86,8 +86,10 @@ def main():
 			print(APRS_packet)
 			continue
 
-		if parsed_packet["from"] == CALLSIGN:
-			sender(parsed_packet)
+		if parsed_packet["from"] not in CALLSIGNS:
+			CALLSIGNS[parsed_packet["from"]] = STARTING_PORT + len(CALLSIGNS)
+
+		sender(parsed_packet, CALLSIGNS[parsed_packet["from"]])
 
 
 if __name__ == "__main__":

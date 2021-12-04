@@ -1,0 +1,49 @@
+Dire Wolf version 1.4
+Includes optional support for:  gpsd
+ERROR - Could not open config file /home/will/direwolf.conf
+Try using -c command line option for alternate location.
+Audio device for both receive and transmit: default  (channel 0)
+Channel 0: 1200 baud, AFSK 1200 & 2200 Hz, E+, 44100 sample rate.
+Note: PTT not configured for channel 0. (Ignore this if using VOX.)
+Ready to accept AGW client application 0 on port 8000 ...
+Ready to accept KISS client application on port 8001 ...
+Use -p command line option to enable KISS pseudo terminal.
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   ||||||_|_
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   _||||____
+[0.2] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   _||||____
+[0.2] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-3>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-2>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   _||||____
+[0.2] KD2WSM-10>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-20>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-50>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+QRT
