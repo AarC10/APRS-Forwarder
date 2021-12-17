@@ -32,7 +32,7 @@ def output_reader():
 	while True:
 		line = input()
 
-		if re.match("^(?P<call>.+)>(?P<dest>.+),", line):
+		if re.match("^(?P<call>.+)>(?P<dest>.+)", line):
 			line = line.split(" ")
 			packet = line[1]
 			break
