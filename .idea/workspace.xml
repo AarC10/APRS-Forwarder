@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ca3e518-2d28-43f3-817b-fe383cf8a884" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/receiver_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/receiver_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +27,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunManager" selected="Python.forwarder">
     <configuration name="forwarder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -90,7 +92,7 @@
       <workItem from="1638820498025" duration="3000" />
       <workItem from="1639013062106" duration="7000" />
       <workItem from="1639718680423" duration="1718000" />
-      <workItem from="1639721601670" duration="2417000" />
+      <workItem from="1639721601670" duration="3017000" />
     </task>
     <servers />
   </component>

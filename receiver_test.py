@@ -1,5 +1,6 @@
 import socket
 import pickle
+import pandas as pd
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = int(input("Enter port number: "))
@@ -7,13 +8,21 @@ UDP_PORT = int(input("Enter port number: "))
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
-while True:
-    data, addr = sock.recvfrom(1024)
-    location = pickle.loads(data)
+df = pd.DataFrame()
 
-    print("Received:")
-    for key in location:
-        print(f"\t{key}: {location[key]}")
+try:
+	while True:
+		data, addr = sock.recvfrom(1024)
+		location = pickle.loads(data)
 
-    print()
+		print("Received:")
+		for key in location:
+			print(f"\t{key}: {location[key]}")
 
+		print()
+		df = df.append(location, ignore_index=True)
+
+except KeyboardInterrupt:
+	print("\nExiting...")
+	df.to_excel("data/receiver_test.xlsx")
+	sock.close()
