@@ -1,5 +1,5 @@
 import socket
-import struct
+import pickle
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = int(input("Enter port number: "))
@@ -10,6 +10,10 @@ sock.bind((UDP_IP, UDP_PORT))
 
 while True:
     data, addr = sock.recvfrom(1024)
-    latitude, longitude, altitude = struct.unpack("fff", data)
-    print(f"Latitude: {latitude}    Longitude: {longitude}      Altitude: {altitude}")
+    location = pickle.loads(data)
+
+    for key in location:
+        print(f"{key}: {location[key]}", end = "\t")
+
+    print()
 

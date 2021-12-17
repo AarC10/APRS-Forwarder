@@ -4,11 +4,11 @@ Author: Aaron Chan The Avionics Prodigy
 """
 
 import re
-import struct
 import aprslib
 import socket
 import time
 import sys
+import pickle
 
 from aprslib.exceptions import ParseError
 
@@ -42,33 +42,18 @@ def output_reader():
 
 	return packet
 
-
-def packet_formatter(packet):
-	"""
-	Reformat packet so aprslib works better
-	"""
-	if ",:=" in packet:
-		packet = packet.replace(",", "")
-
-	return packet
-
-
 def sender(parsed):
 	"""
 	Send the latitude, longitude and altitude from the parsed packet
 	"""
-	latitude = parsed["latitude"]
-	longitude = parsed["longitude"]
+	location = dict()
 
-	if "altitude" in parsed:
-		altitude = parsed["altitude"]
-		location = struct.pack("fff", latitude, longitude, altitude)
-
-	else:
-		location = struct.pack("ff", latitude, longitude)
+	for key in parsed:
+		if key == "latitude" or key == "longitude" or key == "altitude":
+			location[key] = parsed[key]
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	sock.sendto(location, (IP, PORT))
+	sock.sendto(pickle.dumps(location), (IP, PORT))
 
 
 def main():
@@ -80,15 +65,8 @@ def main():
 
 	while True:
 		APRS_packet = output_reader()  # Loop until it finds an APRS packet
-		APRS_packet = packet_formatter(APRS_packet)
 
-		try:
-			parsed_packet = aprslib.parse(APRS_packet)
-
-		except ParseError:
-			print("Parse Error")
-			print(APRS_packet)
-			continue
+		parsed_packet = aprslib.parse(APRS_packet)
 
 		if parsed_packet["from"] == CALLSIGN:
 			sender(parsed_packet)
