@@ -59,9 +59,13 @@ def sender(parsed):
 	"""
 	latitude = parsed["latitude"]
 	longitude = parsed["longitude"]
-	# altitude = parsed["altitude"]
 
-	location = struct.pack("ff", latitude, longitude)
+	if "altitude" in parsed:
+		altitude = parsed["altitude"]
+		location = struct.pack("fff", latitude, longitude, altitude)
+
+	else:
+		location = struct.pack("ff", latitude, longitude)
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	sock.sendto(location, (IP, PORT))
