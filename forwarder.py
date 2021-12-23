@@ -26,8 +26,6 @@ def argument_parse():
 
 	parsed_args = parser.parse_args()
 
-	print(parsed_args)
-
 	if parsed_args.single:
 		ip_and_port = parsed_args.single[0]
 		ip_and_port = ip_and_port.split(":")
@@ -35,20 +33,29 @@ def argument_parse():
 		port = int(ip_and_port[1])
 		callsign = parsed_args.single[1]
 
+		print("Assigning {} to {}".format(port, callsign))
+
 		return ip, {callsign: port}
 
 	elif parsed_args.multi:
 		ip = parsed_args.multi[0]
+
+		if not re.match("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$", ip):
+			print("Invalid IP address. Please try again.")
+			exit()
+
 		callsign_port_pair = dict()
 
 		for i in range(1, len(parsed_args.multi)):
-			callsign_and_port = parsed_args.multi[i].split(":")
-			callsign = callsign_and_port[0]
-			port = int(callsign_and_port[1])
+			callsign, port = parsed_args.multi[i].split(":")
+			callsign_port_pair[callsign] = int(port)
 
-			callsign_port_pair[callsign] = port
+		print("Port Assignments:")
+		for callsign in callsign_port_pair:
+			print("\t{} -> {}".format(callsign, callsign_port_pair[callsign]))
 
 		return ip, callsign_port_pair
+
 
 
 def packet_formatter(packet):
