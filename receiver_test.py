@@ -24,5 +24,10 @@ try:
 
 except KeyboardInterrupt:
 	print("\nExiting...")
-	df.to_excel("data/receiver_test.xlsx")
+
+	try:
+		df.to_excel("data/receiver_test.xlsx")
+	except pd.xlsxwriter.exceptions.FileCreateError:
+		pass
+
 	sock.close()

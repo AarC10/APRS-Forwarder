@@ -3,26 +3,62 @@ Read and parse APRS packets
 Author: Aaron Chan The Avionics Prodigy
 """
 
-import re
 import aprslib
+import argparse
+import pickle
+import re
 import socket
 import time
-import sys
-import pickle
 
 from aprslib.exceptions import ParseError
 
-try:
-	args = sys.argv
 
-	IP_AND_PORT = args[1].split(':')
-	IP = IP_AND_PORT[0]
-	PORT = int(IP_AND_PORT[1])
-	CALLSIGN = args[2]
+def argument_parse():
+	"""
+	Argument parser returning IP and Callsigns:Ports
+	"""
+	parser = argparse.ArgumentParser(description='APRS Forwarder')
 
-except IndexError:
-	print("Usage: forwarder.py IP:PORT CALLSIGN")
-	sys.exit(1)
+	single_or_multi = parser.add_mutually_exclusive_group()
+	single_or_multi.add_argument('-s', '--single', nargs=2, help='Assign a single port to forward a single callsign to')
+	single_or_multi.add_argument('-m', '--multi', nargs="*",
+								 help='Assign multiple ports to forward multiple callsigns to')
+
+	parsed_args = parser.parse_args()
+
+	print(parsed_args)
+
+	if parsed_args.single:
+		ip_and_port = parsed_args.single[0]
+		ip_and_port = ip_and_port.split(":")
+		ip = ip_and_port[0]
+		port = int(ip_and_port[1])
+		callsign = parsed_args.single[1]
+
+		return ip, {callsign: port}
+
+	elif parsed_args.multi:
+		ip = parsed_args.multi[0]
+		callsign_port_pair = dict()
+
+		for i in range(1, len(parsed_args.multi)):
+			callsign_and_port = parsed_args.multi[i].split(":")
+			callsign = callsign_and_port[0]
+			port = int(callsign_and_port[1])
+
+			callsign_port_pair[callsign] = port
+
+		return ip, callsign_port_pair
+
+
+def packet_formatter(packet):
+	"""
+	Reformat packet so aprslib works better
+	"""
+	if ",:=" in packet:
+		packet = packet.replace(",", "")
+
+	return packet
 
 
 def output_reader():
@@ -35,12 +71,11 @@ def output_reader():
 		if re.match("^(?P<call>.+)>(?P<dest>.+)", line):
 			line = line.split(" ")
 			packet = line[1]
-			break
+			return packet
 
 		else:
 			continue
 
-	return packet
 
 def sender(parsed):
 	"""
@@ -53,24 +88,26 @@ def sender(parsed):
 			location[key] = parsed[key]
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	sock.sendto(pickle.dumps(location), (IP, PORT))
+	sock.sendto(pickle.dumps(location), (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
 
 
 def main():
 	"""
 	Main function
 	"""
-	print("Forwarding to {}:{}".format(IP, PORT))
-	print("Callsign: {}".format(CALLSIGN))
-
 	while True:
 		APRS_packet = output_reader()  # Loop until it finds an APRS packet
 
-		parsed_packet = aprslib.parse(APRS_packet)
+		try:
+			parsed_packet = aprslib.parse(APRS_packet)
 
-		if parsed_packet["from"] == CALLSIGN:
+		except ParseError:
+			parsed_packet = aprslib.parse(packet_formatter(APRS_packet))
+
+		if parsed_packet["from"] in CALLSIGN_PORT_PAIR:
 			sender(parsed_packet)
 
 
 if __name__ == "__main__":
+	IP, CALLSIGN_PORT_PAIR = argument_parse()
 	main()
