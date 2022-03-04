@@ -73,12 +73,17 @@ def output_reader():
 	Takes in stdin until it finds an APRS packet to parse
 	"""
 	while True:
-		line = input()
+		try:
+			line = input()
+
+		except UnicodeDecodeError:
+			print("Can't decode byte")
 
 		if re.match("^(?P<call>.+)>(?P<dest>.+)", line):
-			line = line.split(" ")
-			packet = line[1]
-			return packet
+
+				line = line.split(" ")
+				packet = line[1]
+				return packet
 
 		else:
 			continue
