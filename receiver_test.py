@@ -22,9 +22,10 @@ try:
 		# for key in location:
 		# 	print(f"\t{key}: {location[key]}")
 		print(data)
+		print(location)
 
 		print()
-		df = df.append(location, ignore_index=True)
+		# df = df.append(location, ignore_index=True)
 
 except KeyboardInterrupt:
 	print("\nExiting...")

@@ -98,14 +98,6 @@ def sender(parsed):
 	location = defaultdict()
 	location.setdefault(-1)
 
-	# for key in parsed:
-	# 	if key == "latitude" or key == "longitude" or key == "altitude":
-	# 		location[key] = parsed[key]
-	#
-	# latitude = location.get("latitude", -1)
-	# longitude = location.get("longitude", -1)
-	# altitude = location.get("altitude", -1)
-
 	packet = struct.pack('3f',
 		location.get("latitude", -1.0),
 		location.get("longitude", -1.0),
