@@ -107,13 +107,13 @@ def sender(parsed):
 						 location.get("altitude", float('nan'))
 						 )
 
-	print(location.get("latitude", -1.0),
-		  location.get("longitude", -1.0),
-		  location.get("altitude", -1.0))
+	# print(location.get("latitude", -1.0),
+	# 	  location.get("longitude", -1.0),
+	# 	  location.get("altitude", -1.0))
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	print(location)
-	print(packet)
+	# print(location)
+	# print(packet)
 	sock.sendto(packet, (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
 
 
