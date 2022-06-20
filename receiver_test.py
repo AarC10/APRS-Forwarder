@@ -2,7 +2,7 @@ import socket
 import pickle
 import pandas as pd
 
-UDP_IP = "127.0.0.1"
+UDP_IP = input("Enter IP: ")
 UDP_PORT = int(input("Enter port number: "))
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
