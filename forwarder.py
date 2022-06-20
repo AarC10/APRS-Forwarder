@@ -2,6 +2,7 @@
 Read and parse APRS packets
 Author: Aaron Chan The Avionics Prodigy
 """
+from collections import defaultdict
 
 import aprslib
 import argparse
@@ -94,24 +95,25 @@ def sender(parsed):
 	"""
 	Send the latitude, longitude and altitude from the parsed packet
 	"""
-	location = dict()
+	location = defaultdict()
+	location.setdefault(-1)
 
-	for key in parsed:
-		if key == "latitude" or key == "longitude" or key == "altitude":
-			location[key] = parsed[key]
+	# for key in parsed:
+	# 	if key == "latitude" or key == "longitude" or key == "altitude":
+	# 		location[key] = parsed[key]
+	#
+	# latitude = location.get("latitude", -1)
+	# longitude = location.get("longitude", -1)
+	# altitude = location.get("altitude", -1)
 
-	if "latitude" not in location:
-		location["latitude"] = -1
-
-	if "longitude" not in location:
-		location["longitude"] = -1
-
-	if "altitude" not in location:
-		location["altitude"] = -1
-
-	packet = (bytes()).join((struct.pack('f', coord) for coord in [location["latitude"], location["longitude"], location["altitude"]]))
+	packet = struct.pack('3f',
+		location.get("latitude", -1.0),
+		location.get("longitude", -1.0),
+		location.get("altitude", -1.0)
+	)
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	print(location)
 	print(packet)
 	sock.sendto(packet, (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
 

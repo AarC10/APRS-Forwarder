@@ -1,5 +1,7 @@
 import socket
 import pickle
+import struct
+
 import pandas as pd
 
 UDP_IP = input("Enter IP: ")
@@ -13,11 +15,13 @@ df = pd.DataFrame()
 try:
 	while True:
 		data, addr = sock.recvfrom(1024)
-		location = pickle.loads(data)
+		# location = pickle.loads(data)
+		location = struct.unpack("3f", data)
 
 		print("Received:")
-		for key in location:
-			print(f"\t{key}: {location[key]}")
+		# for key in location:
+		# 	print(f"\t{key}: {location[key]}")
+		print(data)
 
 		print()
 		df = df.append(location, ignore_index=True)
