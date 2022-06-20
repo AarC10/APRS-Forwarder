@@ -1,4 +1,51 @@
-"""
+Dire Wolf version 1.4
+Includes optional support for:  gpsd
+ERROR - Could not open config file /home/will/direwolf.conf
+Try using -c command line option for alternate location.
+Audio device for both receive and transmit: default  (channel 0)
+Channel 0: 1200 baud, AFSK 1200 & 2200 Hz, E+, 44100 sample rate.
+Note: PTT not configured for channel 0. (Ignore this if using VOX.)
+Ready to accept AGW client application 0 on port 8000 ...
+Ready to accept KISS client application on port 8001 ...
+Use -p command line option to enable KISS pseudo terminal.
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   ||||||_|_
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   _||||____
+[0.2] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   _||||____
+[0.2] KD2WSM-5>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-3>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-2>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   _||||____
+[0.2] KD2WSM-10>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-20>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+KD2WSM-5 audio level = 1(0/0)   [NONE]   |||||||__
+[0.3] KD2WSM-50>APDR16,:=4307.61N\07741.17WS433.290MHz https://aprsdroid.org/
+
+QRT"""
 Read and parse APRS packets
 Author: Aaron Chan The Avionics Prodigy
 """
@@ -13,7 +60,6 @@ import struct
 import time
 
 from aprslib.exceptions import ParseError
-
 
 def argument_parse():
 	"""
@@ -58,7 +104,6 @@ def argument_parse():
 
 		return ip, callsign_port_pair
 
-
 def packet_formatter(packet):
 	"""
 	Reformat packet so aprslib works better
@@ -67,7 +112,6 @@ def packet_formatter(packet):
 		packet = packet.replace(",", "")
 
 	return packet
-
 
 def output_reader():
 	"""
@@ -82,13 +126,12 @@ def output_reader():
 
 		if re.match("^(?P<call>.+)>(?P<dest>.+)", line):
 
-			line = line.split(" ")
-			packet = line[1]
-			return packet
+				line = line.split(" ")
+				packet = line[1]
+				return packet
 
 		else:
 			continue
-
 
 def sender(parsed):
 	"""
@@ -102,20 +145,19 @@ def sender(parsed):
 			location[key] = parsed[key]
 
 	packet = struct.pack('>3f',
-						 location.get("latitude", float('nan')),
-						 location.get("longitude", float('nan')),
-						 location.get("altitude", float('nan'))
-						 )
+		location.get("latitude", float('nan')),
+		location.get("longitude", float('nan')),
+		location.get("altitude", float('nan'))
+	)
 
 	print(location.get("latitude", -1.0),
-		  location.get("longitude", -1.0),
-		  location.get("altitude", -1.0))
+		location.get("longitude", -1.0),
+		location.get("altitude", -1.0))
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	print(location)
 	print(packet)
 	sock.sendto(packet, (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
-
 
 def main():
 	"""
@@ -132,7 +174,6 @@ def main():
 
 		if parsed_packet["from"] in CALLSIGN_PORT_PAIR:
 			sender(parsed_packet)
-
 
 if __name__ == "__main__":
 	IP, CALLSIGN_PORT_PAIR = argument_parse()

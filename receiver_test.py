@@ -25,7 +25,7 @@ try:
 		print(location)
 
 		print()
-		# df = df.append(location, ignore_index=True)
+	# df = df.append(location, ignore_index=True)
 
 except KeyboardInterrupt:
 	print("\nExiting...")
