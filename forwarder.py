@@ -8,6 +8,7 @@ import argparse
 import pickle
 import re
 import socket
+import struct
 import time
 
 from aprslib.exceptions import ParseError
@@ -99,9 +100,20 @@ def sender(parsed):
 		if key == "latitude" or key == "longitude" or key == "altitude":
 			location[key] = parsed[key]
 
-	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	sock.sendto(pickle.dumps(location), (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
+	if "latitude" not in location:
+		location["latitude"] = -1
 
+	if "longitude" not in location:
+		location["longitude"] = -1
+
+	if "altitude" not in location:
+		location["altitude"] = -1
+
+	packet = (bytes()).join((struct.pack('f', coord) for coord in [location["latitude"], location["longitude"], location["altitude"]]))
+
+	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	print(packet)
+	sock.sendto(packet, (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
 
 def main():
 	"""

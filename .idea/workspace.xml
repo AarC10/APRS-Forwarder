@@ -4,7 +4,6 @@
     <list default="true" id="1ca3e518-2d28-43f3-817b-fe383cf8a884" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forwarder.py" beforeDir="false" afterPath="$PROJECT_DIR$/forwarder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/receiver_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/receiver_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,9 +12,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file:///usr/lib/python3.9/urllib/parse.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -122,6 +118,7 @@
       <workItem from="1640194264078" duration="114000" />
       <workItem from="1640278295478" duration="3740000" />
       <workItem from="1640282038522" duration="3689000" />
+      <workItem from="1655740117242" duration="2154000" />
     </task>
     <servers />
   </component>
