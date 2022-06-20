@@ -98,11 +98,23 @@ def sender(parsed):
 	location = defaultdict()
 	location.setdefault(-1)
 
-	packet = struct.pack('3f',
-		location.get("latitude", -1.0),
-		location.get("longitude", -1.0),
-		location.get("altitude", -1.0)
+	for key in parsed:
+		if key == "latitude" or key == "longitude" or key == "altitude":
+			location[key] = parsed[key]
+
+	packet = struct.pack('>3f',
+		location.get("latitude", float('nan')),
+		location.get("longitude", float('nan')),
+		location.get("altitude", float('nan'))
 	)
+
+	print(location.get("latitude", -1.0),
+		location.get("longitude", -1.0),
+		location.get("altitude", -1.0))
+
+
+
+
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	print(location)

@@ -16,7 +16,7 @@ try:
 	while True:
 		data, addr = sock.recvfrom(1024)
 		# location = pickle.loads(data)
-		location = struct.unpack("3f", data)
+		location = struct.unpack(">3f", data)
 
 		print("Received:")
 		# for key in location:
