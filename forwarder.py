@@ -101,10 +101,10 @@ def sender(parsed):
 		if key == "latitude" or key == "longitude" or key == "altitude":
 			location[key] = parsed[key]
 
-	packet = struct.pack('>3f',
+	packet = struct.pack('>3d',
 						 location.get("latitude", float('nan')),
 						 location.get("longitude", float('nan')),
-						 location.get("altitude", float('nan'))
+						 location.get("altitude", float('nan') * 3.281)
 						 )
 
 	# print(location.get("latitude", -1.0),
