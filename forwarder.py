@@ -83,6 +83,7 @@ def output_reader():
 		if re.match("^(?P<call>.+)>(?P<dest>.+)", line):
 
 			line = line.split(" ")
+			print(line)
 			packet = line[1]
 			return packet
 
@@ -104,7 +105,7 @@ def sender(parsed):
 	packet = struct.pack('>3d',
 						 location.get("latitude", float('nan')),
 						 location.get("longitude", float('nan')),
-						 location.get("altitude", float('nan') * 3.281)
+						 location.get("altitude", float('nan')) * 3.281
 						 )
 
 	# print(location.get("latitude", -1.0),
@@ -115,7 +116,8 @@ def sender(parsed):
 	# print(location)
 	# print(packet)
 	sock.sendto(packet, (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
-
+	print("sent success")
+	time.sleep(2)
 
 def main():
 	"""
