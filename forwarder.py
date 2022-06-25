@@ -117,7 +117,6 @@ def sender(parsed):
 	# print(packet)
 	sock.sendto(packet, (IP, CALLSIGN_PORT_PAIR[parsed["from"]]))
 	print("sent success")
-	time.sleep(2)
 
 def main():
 	"""
