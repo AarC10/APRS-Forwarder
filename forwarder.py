@@ -80,6 +80,9 @@ def output_reader():
 		except UnicodeDecodeError:
 			print("Can't decode byte")
 
+		except EOFError:
+			continue
+
 		if re.match("^(?P<call>.+)>(?P<dest>.+)", line):
 
 			line = line.split(" ")
