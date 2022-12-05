@@ -1,0 +1,1 @@
+direwolf -t 0 | python3 forwarder.py -s 10.10.10.69:8081 KD2UXK-11                                                                                                                                                                                                    
