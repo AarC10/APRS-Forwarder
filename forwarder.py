@@ -65,7 +65,7 @@ def packet_formatter(packet):
 	"""
 	if ",:=" in packet:
 		packet = packet.replace(",", "")
-
+        
 	return packet
 
 
@@ -111,9 +111,9 @@ def sender(parsed):
 						 location.get("altitude", float('nan')) * 3.281
 						 )
 
-	# print(location.get("latitude", -1.0),
-	# 	  location.get("longitude", -1.0),
-	# 	  location.get("altitude", -1.0))
+	print(location.get("latitude", -1.0),
+	location.get("longitude", -1.0),
+	location.get("altitude", -1.0))
 
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	# print(location)

@@ -1,6 +1,7 @@
 import socket
 import pickle
 import struct
+import time
 
 import pandas as pd
 
@@ -16,7 +17,7 @@ try:
 	while True:
 		data, addr = sock.recvfrom(1024)
 		# location = pickle.loads(data)
-		location = struct.unpack(">3f", data)
+		location = struct.unpack(">3d", data)
 
 		print("Received:")
 		# for key in location:
