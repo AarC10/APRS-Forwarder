@@ -12,7 +12,8 @@ from time import sleep
 
 UDP_IP = input("Enter IP: ")
 UDP_PORT = int(input("Enter port number: "))
-DATA_FOLDER = "../data/LOG-" + str(datetime.now())
+DATE_TIME = str(datetime.now()).split(" ")
+DATA_FOLDER = "../data/LOG-" + DATE_TIME[0] + "-" + DATE_TIME[1]
 
 
 
@@ -24,6 +25,7 @@ def handle_response(original_time):
 
 def main():
     os.system("touch " + DATA_FOLDER)
+    print("Logging to " + DATA_FOLDER)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((UDP_IP, UDP_PORT))
 
